@@ -4,10 +4,11 @@ bus_capacity = 35
 passengers = 0
 happy_passengers = 0
 unhappy_passengers = 0
+running = True
 
 
 def get_int_input(message, min_input):
-    input_num = -1
+    input_num = min_input - 1
 
     while input_num < min_input:
         try:
@@ -19,6 +20,18 @@ def get_int_input(message, min_input):
                 return input_num
         except:
             print("Invalid input. Please enter an integer of at least " + str(min_input) + ".")
+
+
+def get_bool_input(message):
+    while True:
+        user_input = input(message)
+
+        if user_input == "Y":
+            return True
+        elif user_input == "N":
+            return False
+        else:
+            print("Invalid Input, please enter Y or N.")
 
 
 def passengers_exiting():
@@ -42,7 +55,7 @@ def passengers_exiting():
 
 
 def passengers_entering():
-    number_passengers = get_int_input("\nEnter number of passengers at stop: ", 0)
+    number_passengers = get_int_input("Enter number of passengers at stop: ", 0)
 
     global bus_capacity
     global passengers
@@ -62,12 +75,13 @@ def passengers_entering():
         happy_passengers += number_passengers
 
 
-while True:
+while running:
     # Reset data
     happy_passengers = 0
     unhappy_passengers = 0
     passengers = 0
 
+    print("\n\n--------------------------")
     route_number = get_int_input("Enter your route number: ", 0)
     bus_stops = get_int_input("Enter the number of bus stops: ", 3)
 
@@ -83,9 +97,11 @@ while True:
 
     txt = "\n----- Route Number: {}. Number of stops: {} -----"
     print(txt.format(route_number, bus_stops))
-    print("Number of happy passengers: " + str(happy_passengers))
-    print("Number of unhappy passengers: " + str(unhappy_passengers))
+    print("Happy passengers: " + str(happy_passengers))
+    print("Unhappy passengers: " + str(unhappy_passengers))
 
     ratio = unhappy_passengers / happy_passengers if unhappy_passengers > 0 else 0
     print("Ratio of unhappy to happy customers: " + str(ratio))
 
+    print("\n\n")
+    running = get_bool_input("Would you like to add another route? (Y/N): ")
