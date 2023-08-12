@@ -11,7 +11,7 @@ class Bus:
     def get_happy_passenger_ratio(self) -> float:
         # If there are no unhappy passengers return 0.
         # Otherwise, return unhappy_passengers / happy_passengers
-        return self._unhappy_passengers / self._happy_passengers if self._unhappy_passengers > 0 else 0
+        return round(self._unhappy_passengers / self._happy_passengers, 2) if self._unhappy_passengers > 0 else 0
 
     def get_capacity(self) -> int:
         return self._capacity
@@ -53,7 +53,7 @@ class Bus:
         return self._unhappy_passengers
 
 
-def get_int_input(message: str, minimum: int = None, maximum: int = None) -> int:
+def request_int_input(message: str, minimum: int = None, maximum: int = None) -> int:
     """
     get_int_input requests an integer input from the
     user of a minimum value, specified by minimum.
@@ -77,7 +77,7 @@ def get_int_input(message: str, minimum: int = None, maximum: int = None) -> int
             print("Invalid input. Please enter an integer")
 
 
-def get_bool_input(message: str) -> bool:
+def request_bool_input(message: str) -> bool:
     """
     get_bool_input requests a boolean input from the user.
 
@@ -95,7 +95,7 @@ def get_bool_input(message: str) -> bool:
             print("Invalid Input, please enter Y or N.")
 
 
-def request_exiting_passengers(bus: Bus) -> None:
+def request_passengers_exiting(bus: Bus) -> None:
     """
     request_exiting_passengers requests an integer input from the user
     specifying the amount of passengers exiting the bus.
@@ -103,7 +103,7 @@ def request_exiting_passengers(bus: Bus) -> None:
     :param bus: The bus object this function will perform on.
     """
     if bus.get_passengers() > 0:
-        passengers_exiting = get_int_input("Enter number of passengers that exited: ", 0, bus.get_passengers())
+        passengers_exiting = request_int_input("Enter number of passengers that exited: ", 0, bus.get_passengers())
         bus.set_passengers(bus.get_passengers() - passengers_exiting)
     else:
         # No need to ask for input as there are no passengers on the bus.
@@ -117,7 +117,7 @@ def request_passengers_entering(bus: Bus) -> None:
 
     :param bus: The bus object this function will perform on.
     """
-    entering_passengers = get_int_input("Enter number of passengers at stop: ", 0)
+    entering_passengers = request_int_input("Enter number of passengers at stop: ", 0)
     bus.add_passengers(entering_passengers)
 
 
@@ -130,14 +130,14 @@ def main() -> None:
 
     # Get number of stops and route number
     print("\n\n--------------------------")
-    route_number = get_int_input("Enter your route number: ", 0)
-    bus_stops = get_int_input("Enter the number of bus stops: ", 3)
+    route_number = request_int_input("Enter your route number: ", 0)
+    bus_stops = request_int_input("Enter the number of bus stops: ", 3)
 
     # Loop through stops
     for i in range(1, bus_stops):
         txt = "----- Bus Stop {} ({}/{}) -----"
         print(txt.format(i, bus.get_passengers(), bus.get_capacity()))
-        request_exiting_passengers(bus)
+        request_passengers_exiting(bus)
         request_passengers_entering(bus)
 
     # Final bus stop requires different structure
@@ -158,4 +158,4 @@ while running:
 
     # Ask whether user wants to add another route
     print("\n\n")
-    running = get_bool_input("Would you like to add another route? (Y/N): ")
+    running = request_bool_input("Would you like to add another route? (Y/N): ")
