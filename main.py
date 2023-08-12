@@ -112,7 +112,7 @@ def request_passengers_entering(bus: Bus) -> None:
     request_passengers_entering requests an integer from the user specifying
     the number of passengers entering the bus.
 
-    :param bus:
+    :param bus: The bus object this function will perform on.
     """
     entering_passengers = get_int_input("Enter number of passengers at stop: ", 0)
     bus.add_passengers(entering_passengers)
@@ -130,20 +130,20 @@ def main() -> None:
     # Loop through stops
     for i in range(1, bus_stops):
         txt = "----- Bus Stop {} ({}/{}) -----"
-        print(txt.format(i, bus.passengers, bus.capacity))
-        request_exiting_passengers()
-        request_passengers_entering()
+        print(txt.format(i, bus.get_passengers, bus.get_capacity))
+        request_exiting_passengers(bus)
+        request_passengers_entering(bus)
 
     # Final bus stop requires different structure
     print("----- Bus Stop " + str(bus_stops) + " (Final stop) -----")
-    print("(AUTO) Passengers that exited: " + str(bus.passengers))
+    print("(AUTO) Passengers that exited: " + str(bus.get_passengers))
     passengers = 0
 
     # Final output
     txt = "\n----- Route Number: {}. Number of stops: {} -----"
     print(txt.format(route_number, bus_stops))
-    print("Happy passengers: " + str(bus.happy_passengers))
-    print("Unhappy passengers: " + str(bus.unhappy_passengers))
+    print("Happy passengers: " + str(bus.get_happy_passengers))
+    print("Unhappy passengers: " + str(bus.get_unhappy_passengers))
     print("Ratio of unhappy to happy customers: " + str(bus.get_happy_passenger_ratio()))
 
 
