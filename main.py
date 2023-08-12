@@ -13,21 +13,23 @@ class Bus:
         # Otherwise, return unhappy_passengers / happy_passengers
         return self._unhappy_passengers / self._happy_passengers if self._unhappy_passengers > 0 else 0
 
-    def get_capacity(self):
+    def get_capacity(self) -> int:
         return self._capacity
 
-    def get_passengers(self):
+    def get_passengers(self) -> int:
         return self._passengers
 
-    def add_passengers(self, passengers: int):
+    def add_passengers(self, passengers: int) -> None:
         # Guard clause, there is no need to continue if passengers are <= 0
         if passengers <= 0:
             return
 
         # Calculate the overfull amount, I.e. the number of passengers unable
-        # to enter the bus due to capacity
-        overfill = 0 if passengers + self._passengers < self._capacity else passengers + self._passengers - self._capacity
-        print("Overfill: " + str(overfill))
+        # to enter the bus due to capacity limitations.
+        if passengers + self._passengers < self._capacity:
+            overfill = 0
+        else:
+            overfill = passengers + self._passengers - self._capacity
 
         self._passengers += passengers - overfill
         self._happy_passengers += passengers - overfill
