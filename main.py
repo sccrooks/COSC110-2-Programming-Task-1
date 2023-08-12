@@ -2,7 +2,7 @@ running = True
 
 
 class Bus:
-    def __init__(self, capacity: int, passengers: int, happy_passengers: int, unhappy_passengers: int):
+    def __init__(self, capacity: int = 35, passengers: int = 0, happy_passengers: int = 0, unhappy_passengers: int = 0):
         self._capacity = capacity
         self._passengers = passengers
         self._happy_passengers = happy_passengers
@@ -122,8 +122,11 @@ def request_passengers_entering(bus: Bus) -> None:
 
 
 def main() -> None:
+    """
+    main contains the functionality for this program's core loop.
+    """
     # Create a new bus object for this route.
-    bus = Bus(35, 0, 0, 0)
+    bus = Bus()
 
     # Get number of stops and route number
     print("\n\n--------------------------")
@@ -153,6 +156,6 @@ def main() -> None:
 while running:
     main()
 
-    # Ask if user wants to add another route
+    # Ask whether user wants to add another route
     print("\n\n")
     running = get_bool_input("Would you like to add another route? (Y/N): ")
