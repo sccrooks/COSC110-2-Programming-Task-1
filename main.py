@@ -55,9 +55,9 @@ def get_int_input(message: str, minimum: int = None, maximum: int = None) -> int
     get_int_input requests an integer input from the
     user of a minimum value, specified by minimum.
 
-    :param maximum:
     :param message: The message presented to the user
     :param minimum: Minimum allowed input
+    :param maximum: Maximum allowed input
     :return: int
     """
     while True:
@@ -100,18 +100,8 @@ def request_exiting_passengers(bus: Bus) -> None:
     :param bus: The bus object this function will perform on.
     """
     if bus.get_passengers() > 0:
-        # Do while: passengers_exiting > passengers
-        x = True
-        while x:
-            passengers_exiting = get_int_input("Enter number of passengers that exited: ", 0)
-
-            # Is the number of passengers exiting greater than the number of passengers on the bus?
-            if passengers_exiting > bus.get_passengers():
-                print("There are not that many passengers on the bus! Please try again.")
-            else:
-                print("Passengers exiting: " + str(passengers_exiting))
-                bus.set_passengers(bus.get_passengers() - passengers_exiting)
-                x = False
+        passengers_exiting = get_int_input("Enter number of passengers that exited: ", 0, bus.get_passengers())
+        bus.set_passengers(bus.get_passengers() - passengers_exiting)
     else:
         # No need to ask for input as there are no passengers on the bus.
         print("(AUTO) Passengers exiting: 0")
