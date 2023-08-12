@@ -36,20 +36,31 @@ def get_int_input(message: str, minimum: int) -> int:
 
 
 def get_bool_input(message: str) -> bool:
-    while True:
-        user_input = input(message).upper()
+    """
+    get_bool_input requests a boolean input from the user.
 
-        if user_input == "Y":
+    :param message: The message presented to the user
+    :return: bool
+    """
+    while True:
+        user_input = input(message).lower()
+
+        if user_input == "y":
             return True
-        elif user_input == "N":
+        elif user_input == "n":
             return False
         else:
             print("Invalid Input, please enter Y or N.")
 
 
-def passengers_exiting(bus: Bus) -> None:
-    if bus.passengers > 0:
+def request_exiting_passengers(bus: Bus) -> None:
+    """
+    request_exiting_passengers requests an integer input from the user
+    specifying the amount of passengers exiting the bus.
 
+    :param bus: The bus object this function will perform on.
+    """
+    if bus.passengers > 0:
         # Do while: passengers_exiting > passengers
         x = True
         while x:
@@ -86,7 +97,8 @@ def passengers_entering(bus: Bus) -> None:
 
 
 def main() -> None:
-    global running
+
+    # Create a new bus object for this route.
     bus = Bus(35, 0, 0, 0)
 
     # Get number of stops and route number
@@ -98,7 +110,7 @@ def main() -> None:
     for i in range(1, bus_stops):
         txt = "----- Bus Stop {} ({}/{}) -----"
         print(txt.format(i, bus.passengers, bus.capacity))
-        passengers_exiting()
+        request_exiting_passengers()
         passengers_entering()
 
     # Final bus stop requires different structure
