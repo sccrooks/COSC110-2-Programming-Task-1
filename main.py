@@ -11,7 +11,6 @@ class Bus:
         get_happy_passenger_ratio returns the ratio of unhappy to happy
         passengers calculated as: _unhappy_passengers / _happy_passengers
 
-
         :return: float
         """
         # If there are no unhappy passengers return 0.
@@ -45,7 +44,7 @@ class Bus:
         if passengers <= 0:
             return
 
-        # Calculate the overfull amount, I.e. the number of passengers unable
+        # Calculate the overfilled amount, I.e. the number of passengers unable
         # to enter the bus due to capacity limitations.
         if passengers + self._passengers < self._capacity:
             overfill = 0
@@ -68,9 +67,19 @@ class Bus:
         self._passengers = passengers
 
     def get_happy_passengers(self):
+        """
+        get_happy_passengers returns the number of happy customers
+
+        :return:
+        """
         return self._happy_passengers
 
     def get_unhappy_passengers(self):
+        """
+        get_unhappy_passengers returns the number of unhappy customers
+
+        :return:
+        """
         return self._unhappy_passengers
 
 
