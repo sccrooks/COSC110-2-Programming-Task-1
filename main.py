@@ -34,7 +34,7 @@ class Bus:
 
     def set_passengers(self, passengers: int):
         """
-        set_passengers sets the local variable _passengers to the inputter value passengers.
+        set_passengers sets the local variable _passengers to the inputted value passengers.
 
         WARNING: This function does not contain protections for preventing going over _capacity or going under 0.
                  Use bus.add_passengers to prevent this.
@@ -50,11 +50,12 @@ class Bus:
         return self._unhappy_passengers
 
 
-def get_int_input(message: str, minimum: int) -> int:
+def get_int_input(message: str, minimum: int = None, maximum: int = None) -> int:
     """
     get_int_input requests an integer input from the
     user of a minimum value, specified by minimum.
 
+    :param maximum:
     :param message: The message presented to the user
     :param minimum: Minimum allowed input
     :return: int
@@ -63,12 +64,14 @@ def get_int_input(message: str, minimum: int) -> int:
         try:
             input_num = int(input(message))
 
-            if input_num < minimum:
-                raise ValueError
+            if minimum is not None and input_num < minimum:
+                print("Invalid input. Please enter an integer of at least " + str(minimum) + ".")
+            elif maximum is not None and input_num > maximum:
+                print("Invalid input. Please enter an integer of at least " + str(maximum) + ".")
             else:
                 return input_num
         except:
-            print("Invalid input. Please enter an integer of at least " + str(minimum) + ".")
+            print("Invalid input. Please enter an integer")
 
 
 def get_bool_input(message: str) -> bool:
