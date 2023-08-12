@@ -1,5 +1,3 @@
-route_number = -1
-bus_stops = -1
 bus_capacity = 35
 passengers = 0
 happy_passengers = 0
@@ -7,10 +5,19 @@ unhappy_passengers = 0
 running = True
 
 
-def get_int_input(message, min_input):
-    input_num = min_input - 1
+class Bus():
+    def __init__(self, capacity, passengers, happy_passengers, unhappy_passengers):
+        self.capacity = capacity
+        self.passengers = passengers
+        self.happy_passengers = happy_passengers
+        self.unhappy_passengers = unhappy_passengers
 
-    while input_num < min_input:
+    def happy_passenger_ratio(self):
+        return unhappy_passengers / happy_passengers if unhappy_passengers > 0 else 0
+
+
+def get_int_input(message: str, min_input: int) -> int:
+    while True:
         try:
             input_num = int(input(message))
 
@@ -22,9 +29,9 @@ def get_int_input(message, min_input):
             print("Invalid input. Please enter an integer of at least " + str(min_input) + ".")
 
 
-def get_bool_input(message):
+def get_bool_input(message: str) -> bool:
     while True:
-        user_input = input(message)
+        user_input = input(message).upper()
 
         if user_input == "Y":
             return True
@@ -75,33 +82,45 @@ def passengers_entering():
         happy_passengers += number_passengers
 
 
-while running:
+def main():
+    global happy_passengers
+    global unhappy_passengers
+    global passengers
+    global running
+
     # Reset data
     happy_passengers = 0
     unhappy_passengers = 0
     passengers = 0
 
+    # Get number of stops and route number
     print("\n\n--------------------------")
     route_number = get_int_input("Enter your route number: ", 0)
     bus_stops = get_int_input("Enter the number of bus stops: ", 3)
 
+    # Loop through stops
     for i in range(1, bus_stops):
         txt = "----- Bus Stop {} ({}/{}) -----"
         print(txt.format(i, passengers, bus_capacity))
         passengers_exiting()
         passengers_entering()
 
+    # Final bus stop requires different structure
     print("----- Bus Stop " + str(bus_stops) + " (Final stop) -----")
     print("(AUTO) Passengers that exited: " + str(passengers))
     passengers = 0
 
+    # Final output
     txt = "\n----- Route Number: {}. Number of stops: {} -----"
     print(txt.format(route_number, bus_stops))
     print("Happy passengers: " + str(happy_passengers))
     print("Unhappy passengers: " + str(unhappy_passengers))
-
-    ratio = unhappy_passengers / happy_passengers if unhappy_passengers > 0 else 0
     print("Ratio of unhappy to happy customers: " + str(ratio))
 
+
+while running:
+    main()
+
+    # Ask if user wants to add another route
     print("\n\n")
     running = get_bool_input("Would you like to add another route? (Y/N): ")
