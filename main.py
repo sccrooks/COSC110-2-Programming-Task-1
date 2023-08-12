@@ -26,7 +26,8 @@ class Bus:
 
         # Calculate the overfull amount, I.e. the number of passengers unable
         # to enter the bus due to capacity
-        overfill = (self._passengers + passengers) - self._capacity
+        overfill = 0 if passengers + self._passengers < self._capacity else passengers + self._passengers - self._capacity
+        print("Overfill: " + str(overfill))
 
         self._passengers += passengers - overfill
         self._happy_passengers += passengers - overfill
@@ -130,20 +131,20 @@ def main() -> None:
     # Loop through stops
     for i in range(1, bus_stops):
         txt = "----- Bus Stop {} ({}/{}) -----"
-        print(txt.format(i, bus.get_passengers, bus.get_capacity))
+        print(txt.format(i, bus.get_passengers(), bus.get_capacity()))
         request_exiting_passengers(bus)
         request_passengers_entering(bus)
 
     # Final bus stop requires different structure
     print("----- Bus Stop " + str(bus_stops) + " (Final stop) -----")
-    print("(AUTO) Passengers that exited: " + str(bus.get_passengers))
+    print("(AUTO) Passengers that exited: " + str(bus.get_passengers()))
     passengers = 0
 
     # Final output
     txt = "\n----- Route Number: {}. Number of stops: {} -----"
     print(txt.format(route_number, bus_stops))
-    print("Happy passengers: " + str(bus.get_happy_passengers))
-    print("Unhappy passengers: " + str(bus.get_unhappy_passengers))
+    print("Happy passengers: " + str(bus.get_happy_passengers()))
+    print("Unhappy passengers: " + str(bus.get_unhappy_passengers()))
     print("Ratio of unhappy to happy customers: " + str(bus.get_happy_passenger_ratio()))
 
 
