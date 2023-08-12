@@ -20,6 +20,10 @@ class Bus:
         return self._passengers
 
     def add_passengers(self, passengers: int):
+        # Guard clause, there is no need to continue if passengers are <= 0
+        if passengers <= 0:
+            return
+
         # Calculate the overfull amount, I.e. the number of passengers unable
         # to enter the bus due to capacity
         overfill = (self._passengers + passengers) - self._capacity
@@ -30,7 +34,10 @@ class Bus:
 
     def set_passengers(self, passengers: int):
         """
-        
+        set_passengers sets the local variable _passengers to the inputter value passengers.
+
+        WARNING: This function does not contain protections for preventing going over _capacity or going under 0.
+                 Use bus.add_passengers to prevent this.
 
         :param passengers: New Value
         """
@@ -100,7 +107,7 @@ def request_exiting_passengers(bus: Bus) -> None:
                 print("There are not that many passengers on the bus! Please try again.")
             else:
                 print("Passengers exiting: " + str(passengers_exiting))
-                bus.passengers -= passengers_exiting
+                bus.set_passengers(bus.get_passengers() - passengers_exiting)
                 x = False
     else:
         # No need to ask for input as there are no passengers on the bus.
@@ -115,24 +122,10 @@ def request_passengers_entering(bus: Bus) -> None:
     :param bus:
     """
     entering_passengers = get_int_input("Enter number of passengers at stop: ", 0)
-
-    # Get the remaining capacity on the bus
-    remaining_capacity = bus.capacity - bus.passengers
-
-    # If there are more passengers at the stop then capacity on the bus
-    if entering_passengers > remaining_capacity:
-        bus.passengers += remaining_capacity
-        bus.happy_passengers += remaining_capacity
-
-        entering_passengers -= remaining_capacity
-        bus.unhappy_passengers += entering_passengers
-    else:
-        bus.passengers += entering_passengers
-        bus.happy_passengers += entering_passengers
+    bus.add_passengers(entering_passengers)
 
 
 def main() -> None:
-
     # Create a new bus object for this route.
     bus = Bus(35, 0, 0, 0)
 
