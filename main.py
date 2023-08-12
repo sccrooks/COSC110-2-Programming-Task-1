@@ -5,7 +5,7 @@ unhappy_passengers = 0
 running = True
 
 
-class Bus():
+class Bus:
     def __init__(self, capacity, passengers, happy_passengers, unhappy_passengers):
         self.capacity = capacity
         self.passengers = passengers
