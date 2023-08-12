@@ -3,15 +3,44 @@ running = True
 
 class Bus:
     def __init__(self, capacity: int, passengers: int, happy_passengers: int, unhappy_passengers: int):
-        self.capacity = capacity
-        self.passengers = passengers
-        self.happy_passengers = happy_passengers
-        self.unhappy_passengers = unhappy_passengers
+        self._capacity = capacity
+        self._passengers = passengers
+        self._happy_passengers = happy_passengers
+        self._unhappy_passengers = unhappy_passengers
 
     def get_happy_passenger_ratio(self) -> float:
         # If there are no unhappy passengers return 0.
         # Otherwise, return unhappy_passengers / happy_passengers
-        return self.unhappy_passengers / self.happy_passengers if self.unhappy_passengers > 0 else 0
+        return self._unhappy_passengers / self._happy_passengers if self._unhappy_passengers > 0 else 0
+
+    def get_capacity(self):
+        return self._capacity
+
+    def get_passengers(self):
+        return self._passengers
+
+    def add_passengers(self, passengers: int):
+        # Calculate the overfull amount, I.e. the number of passengers unable
+        # to enter the bus due to capacity
+        overfill = (self._passengers + passengers) - self._capacity
+
+        self._passengers += passengers - overfill
+        self._happy_passengers += passengers - overfill
+        self._unhappy_passengers += overfill
+
+    def set_passengers(self, passengers: int):
+        """
+        
+
+        :param passengers: New Value
+        """
+        self._passengers = passengers
+
+    def get_happy_passengers(self):
+        return self._happy_passengers
+
+    def get_unhappy_passengers(self):
+        return self._unhappy_passengers
 
 
 def get_int_input(message: str, minimum: int) -> int:
@@ -60,14 +89,14 @@ def request_exiting_passengers(bus: Bus) -> None:
 
     :param bus: The bus object this function will perform on.
     """
-    if bus.passengers > 0:
+    if bus.get_passengers() > 0:
         # Do while: passengers_exiting > passengers
         x = True
         while x:
             passengers_exiting = get_int_input("Enter number of passengers that exited: ", 0)
 
             # Is the number of passengers exiting greater than the number of passengers on the bus?
-            if passengers_exiting > bus.passengers:
+            if passengers_exiting > bus.get_passengers():
                 print("There are not that many passengers on the bus! Please try again.")
             else:
                 print("Passengers exiting: " + str(passengers_exiting))
@@ -78,7 +107,13 @@ def request_exiting_passengers(bus: Bus) -> None:
         print("(AUTO) Passengers exiting: 0")
 
 
-def passengers_entering(bus: Bus) -> None:
+def request_passengers_entering(bus: Bus) -> None:
+    """
+    request_passengers_entering requests an integer from the user specifying
+    the number of passengers entering the bus.
+
+    :param bus:
+    """
     entering_passengers = get_int_input("Enter number of passengers at stop: ", 0)
 
     # Get the remaining capacity on the bus
@@ -111,7 +146,7 @@ def main() -> None:
         txt = "----- Bus Stop {} ({}/{}) -----"
         print(txt.format(i, bus.passengers, bus.capacity))
         request_exiting_passengers()
-        passengers_entering()
+        request_passengers_entering()
 
     # Final bus stop requires different structure
     print("----- Bus Stop " + str(bus_stops) + " (Final stop) -----")
