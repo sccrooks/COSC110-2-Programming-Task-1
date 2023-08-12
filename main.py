@@ -1,32 +1,38 @@
-bus_capacity = 35
-passengers = 0
-happy_passengers = 0
-unhappy_passengers = 0
 running = True
 
 
 class Bus:
-    def __init__(self, capacity, passengers, happy_passengers, unhappy_passengers):
+    def __init__(self, capacity: int, passengers: int, happy_passengers: int, unhappy_passengers: int):
         self.capacity = capacity
         self.passengers = passengers
         self.happy_passengers = happy_passengers
         self.unhappy_passengers = unhappy_passengers
 
-    def happy_passenger_ratio(self):
-        return unhappy_passengers / happy_passengers if unhappy_passengers > 0 else 0
+    def get_happy_passenger_ratio(self) -> float:
+        # If there are no unhappy passengers return 0.
+        # Otherwise, return unhappy_passengers / happy_passengers
+        return self.unhappy_passengers / self.happy_passengers if self.unhappy_passengers > 0 else 0
 
 
-def get_int_input(message: str, min_input: int) -> int:
+def get_int_input(message: str, minimum: int) -> int:
+    """
+    get_int_input requests an integer input from the
+    user of a minimum value, specified by minimum.
+
+    :param message: The message presented to the user
+    :param minimum: Minimum allowed input
+    :return: int
+    """
     while True:
         try:
             input_num = int(input(message))
 
-            if input_num < min_input:
+            if input_num < minimum:
                 raise ValueError
             else:
                 return input_num
         except:
-            print("Invalid input. Please enter an integer of at least " + str(min_input) + ".")
+            print("Invalid input. Please enter an integer of at least " + str(minimum) + ".")
 
 
 def get_bool_input(message: str) -> bool:
@@ -41,57 +47,47 @@ def get_bool_input(message: str) -> bool:
             print("Invalid Input, please enter Y or N.")
 
 
-def passengers_exiting():
-    global passengers
+def passengers_exiting(bus: Bus) -> None:
+    if bus.passengers > 0:
 
-    if passengers > 0:
-        # Do while passengers_exiting > passengers
+        # Do while: passengers_exiting > passengers
         x = True
         while x:
-            number_passengers_exiting = get_int_input("Enter number of passengers that exited: ", 0)
+            passengers_exiting = get_int_input("Enter number of passengers that exited: ", 0)
 
-            if number_passengers_exiting > passengers:
+            # Is the number of passengers exiting greater than the number of passengers on the bus?
+            if passengers_exiting > bus.passengers:
                 print("There are not that many passengers on the bus! Please try again.")
-                x = True
             else:
-                print("Passengers exiting: " + str(number_passengers_exiting))
-                passengers -= number_passengers_exiting
+                print("Passengers exiting: " + str(passengers_exiting))
+                bus.passengers -= passengers_exiting
                 x = False
     else:
+        # No need to ask for input as there are no passengers on the bus.
         print("(AUTO) Passengers exiting: 0")
 
 
-def passengers_entering():
-    number_passengers = get_int_input("Enter number of passengers at stop: ", 0)
+def passengers_entering(bus: Bus) -> None:
+    entering_passengers = get_int_input("Enter number of passengers at stop: ", 0)
 
-    global bus_capacity
-    global passengers
-    global unhappy_passengers
-    global happy_passengers
+    # Get the remaining capacity on the bus
+    remaining_capacity = bus.capacity - bus.passengers
 
-    remaining_capacity = bus_capacity - passengers
+    # If there are more passengers at the stop then capacity on the bus
+    if entering_passengers > remaining_capacity:
+        bus.passengers += remaining_capacity
+        bus.happy_passengers += remaining_capacity
 
-    if number_passengers > remaining_capacity:
-        passengers += remaining_capacity
-        happy_passengers += remaining_capacity
-
-        number_passengers -= remaining_capacity
-        unhappy_passengers += number_passengers
+        entering_passengers -= remaining_capacity
+        bus.unhappy_passengers += entering_passengers
     else:
-        passengers += number_passengers
-        happy_passengers += number_passengers
+        bus.passengers += entering_passengers
+        bus.happy_passengers += entering_passengers
 
 
-def main():
-    global happy_passengers
-    global unhappy_passengers
-    global passengers
+def main() -> None:
     global running
-
-    # Reset data
-    happy_passengers = 0
-    unhappy_passengers = 0
-    passengers = 0
+    bus = Bus(35, 0, 0, 0)
 
     # Get number of stops and route number
     print("\n\n--------------------------")
@@ -101,21 +97,21 @@ def main():
     # Loop through stops
     for i in range(1, bus_stops):
         txt = "----- Bus Stop {} ({}/{}) -----"
-        print(txt.format(i, passengers, bus_capacity))
+        print(txt.format(i, bus.passengers, bus.capacity))
         passengers_exiting()
         passengers_entering()
 
     # Final bus stop requires different structure
     print("----- Bus Stop " + str(bus_stops) + " (Final stop) -----")
-    print("(AUTO) Passengers that exited: " + str(passengers))
+    print("(AUTO) Passengers that exited: " + str(bus.passengers))
     passengers = 0
 
     # Final output
     txt = "\n----- Route Number: {}. Number of stops: {} -----"
     print(txt.format(route_number, bus_stops))
-    print("Happy passengers: " + str(happy_passengers))
-    print("Unhappy passengers: " + str(unhappy_passengers))
-    print("Ratio of unhappy to happy customers: " + str(ratio))
+    print("Happy passengers: " + str(bus.happy_passengers))
+    print("Unhappy passengers: " + str(bus.unhappy_passengers))
+    print("Ratio of unhappy to happy customers: " + str(bus.get_happy_passenger_ratio()))
 
 
 while running:
