@@ -1,25 +1,46 @@
-running = True
-
-
 class Bus:
-    def __init__(self, capacity: int = 35, passengers: int = 0, happy_passengers: int = 0, unhappy_passengers: int = 0):
+    def __init__(self, capacity: int = 35, passengers: int = 0,
+                 happy_passengers: int = 0, unhappy_passengers: int = 0):
         self._capacity = capacity
         self._passengers = passengers
         self._happy_passengers = happy_passengers
         self._unhappy_passengers = unhappy_passengers
 
     def get_happy_passenger_ratio(self) -> float:
+        """
+        get_happy_passenger_ratio returns the ratio of unhappy to happy
+        passengers calculated as: _unhappy_passengers / _happy_passengers
+
+
+        :return: float
+        """
         # If there are no unhappy passengers return 0.
         # Otherwise, return unhappy_passengers / happy_passengers
         return round(self._unhappy_passengers / self._happy_passengers, 2) if self._unhappy_passengers > 0 else 0
 
     def get_capacity(self) -> int:
+        """
+        get_capacity returns the capacity of this bus.
+
+        :return: int
+        """
         return self._capacity
 
     def get_passengers(self) -> int:
+        """
+        get_passengers returns the number of passengers in this bus.
+
+        :return: int
+        """
         return self._passengers
 
     def add_passengers(self, passengers: int) -> None:
+        """
+        add_passengers calculates the number of passengers able to fit into
+        the bus and
+
+        :param passengers:
+        """
         # Guard clause, there is no need to continue if passengers are <= 0
         if passengers <= 0:
             return
@@ -153,9 +174,10 @@ def main() -> None:
     print("Ratio of unhappy to happy customers: " + str(bus.get_happy_passenger_ratio()))
 
 
-while running:
+while True:
     main()
 
     # Ask whether user wants to add another route
     print("\n\n")
-    running = request_bool_input("Would you like to add another route? (Y/N): ")
+    if not request_bool_input("Would you like to add another route? (Y/N): "):
+        break
