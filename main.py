@@ -9,13 +9,13 @@ class Bus:
     def get_happy_passenger_ratio(self) -> float:
         """
         get_happy_passenger_ratio returns the ratio of unhappy to happy
-        passengers calculated as: _unhappy_passengers / _happy_passengers
+        passengers calculated as: _happy_passengers / _unhappy_passengers
 
         :return: float
         """
         # If there are no unhappy passengers return 0.
         # Otherwise, return unhappy_passengers / happy_passengers
-        return round(self._unhappy_passengers / self._happy_passengers, 2) if self._unhappy_passengers > 0 else 0
+        return round(self._happy_passengers / self._unhappy_passengers, 2) if self._unhappy_passengers > 0 else 0
 
     def get_capacity(self) -> int:
         """
@@ -173,7 +173,6 @@ def main() -> None:
     # Remaining passengers must exit at final stop.
     print("----- Bus Stop " + str(bus_stops) + " (Final stop) -----")
     print("(AUTO) Passengers that exited: " + str(bus.get_passengers()))
-    passengers = 0
 
     # Final output.
     txt = "\n----- Route Number: {}. Number of stops: {} -----"
