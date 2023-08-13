@@ -55,7 +55,7 @@ class Bus:
         self._happy_passengers += passengers - overfill
         self._unhappy_passengers += overfill
 
-    def set_passengers(self, passengers: int):
+    def set_passengers(self, passengers: int) -> None:
         """
         set_passengers sets the local variable _passengers to the inputted value passengers.
 
@@ -66,19 +66,19 @@ class Bus:
         """
         self._passengers = passengers
 
-    def get_happy_passengers(self):
+    def get_happy_passengers(self) -> int:
         """
         get_happy_passengers returns the number of happy customers
 
-        :return:
+        :return: int
         """
         return self._happy_passengers
 
-    def get_unhappy_passengers(self):
+    def get_unhappy_passengers(self) -> int:
         """
         get_unhappy_passengers returns the number of unhappy customers
 
-        :return:
+        :return: int
         """
         return self._unhappy_passengers
 
@@ -158,24 +158,24 @@ def main() -> None:
     # Create a new bus object for this route.
     bus = Bus()
 
-    # Get number of stops and route number
+    # request the  number of stops and route number.
     print("\n\n--------------------------")
     route_number = request_int_input("Enter your route number: ", 0)
     bus_stops = request_int_input("Enter the number of bus stops: ", 3)
 
-    # Loop through stops
+    # Loop through bus stops.
     for i in range(1, bus_stops):
         txt = "----- Bus Stop {} ({}/{}) -----"
         print(txt.format(i, bus.get_passengers(), bus.get_capacity()))
         request_passengers_exiting(bus)
         request_passengers_entering(bus)
 
-    # Final bus stop requires different structure
+    # Remaining passengers must exit at final stop.
     print("----- Bus Stop " + str(bus_stops) + " (Final stop) -----")
     print("(AUTO) Passengers that exited: " + str(bus.get_passengers()))
     passengers = 0
 
-    # Final output
+    # Final output.
     txt = "\n----- Route Number: {}. Number of stops: {} -----"
     print(txt.format(route_number, bus_stops))
     print("Happy passengers: " + str(bus.get_happy_passengers()))
