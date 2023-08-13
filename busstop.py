@@ -1,3 +1,12 @@
+#
+#   Author: Scott Crooks
+#
+#   Purpose: System for tracking the number of happy/unhappy passengers
+#            for Codetown school bus stops/routes
+#
+#   Usage: To use, run this file
+#
+
 class Bus:
     def __init__(self, capacity: int = 35, passengers: int = 0,
                  happy_passengers: int = 0, unhappy_passengers: int = 0):
