@@ -5,4 +5,4 @@
 
 ## Linux
     * Go to project directory
-    * Enter `python main.py`
+    * Enter `python busstop.py`
